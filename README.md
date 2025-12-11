@@ -19,5 +19,5 @@ sudo ./ir_linux.sh
 
 # 4. First, review the triage summary for immediate threats
 cat /tmp/ir_evidence_*/08_triage_summary.txt
-
+```
 #### Disclaimer: This tool is for authorized incident response and forensic investigations only. Use in compliance with all applicable laws and organizational policies.
