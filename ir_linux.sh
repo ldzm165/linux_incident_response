@@ -23,7 +23,7 @@ NC='\033[0m' # No Color
 log_action() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$COLLECTION_LOG"
     echo -e "${GREEN}[+]${NC} $1"
-}
+
 
 # Function to handle errors
 log_error() {
@@ -49,10 +49,10 @@ collect_data() {
     local file="$1"
     local title="$2"
     local command="$3"
-    
+
     log_action "Collecting: $title"
     add_section_header "$file" "$title"
-    
+
     # Execute command and handle errors
     if eval "$command" >> "$file" 2>> "${EVIDENCE_DIR}/errors.log"; then
         echo "Status: Success" >> "$file"
@@ -190,7 +190,7 @@ TRIAGE_INFO="${EVIDENCE_DIR}/08_triage_summary.txt"
 
 collect_data "$TRIAGE_INFO" "CRITICAL: Suspicious Processes" "ps aux | grep -i 'miner\|backdoor\|shell\|reverse\|bind\|perl\|python\|nc\|netcat\|telnet\|8888\|4444\|1337' | grep -v grep || echo 'No obvious suspicious process names found'"
 collect_data "$TRIAGE_INFO" "CRITICAL: Unusual Listening Ports" "netstat -tulpn 2>/dev/null | grep -E ': (1433|3389|4444|5555|6666|7777|8888|9999|1337|31337)' || echo 'No unusual ports found'"
-collect_data "$TRIAGE_INFO" "CRITICAL: SSH Authorized Keys" "find /home /root -name 'authorized_keys' -type f 2>/dev/null -exec echo '=== {} ===' \; -exec cat {} \;" 
+collect_data "$TRIAGE_INFO" "CRITICAL: SSH Authorized Keys" "find /home /root -name 'authorized_keys' -type f 2>/dev/null -exec echo '=== {} ===' \; -exec cat {} \;"
 collect_data "$TRIAGE_INFO" "CRITICAL: History Files" "for user in /home/* /root; do [ -d \"\$user\" ] && echo \"=== \$user/.bash_history ===\" && tail -20 \"\$user/.bash_history\" 2>/dev/null; done"
 collect_data "$TRIAGE_INFO" "CRITICAL: SUID Binaries Changes" "find / -type f -perm /4000 2>/dev/null | xargs ls -la 2>/dev/null | head -30"
 
